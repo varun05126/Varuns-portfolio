@@ -19,6 +19,9 @@ const getEmailConfig = () => {
       port: Number(process.env.EMAIL_PORT) || 587,
       secure: process.env.EMAIL_SECURE === 'true',
       auth: { user, pass },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
     }),
     from,
     to,
@@ -57,6 +60,8 @@ const contactForm = asyncHandler(async (req, res) => {
       const safeSubject = escapeHtml(normalizedSubject);
       const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
 
+      await emailConfig.transporter.verify();
+
       const info = await emailConfig.transporter.sendMail({
         from: `"Varun Portfolio" <${emailConfig.from}>`,
         to: emailConfig.to,
@@ -88,7 +93,7 @@ const contactForm = asyncHandler(async (req, res) => {
     success: true,
     message: emailSent
       ? 'Message sent successfully.'
-      : 'Message saved successfully. Email delivery is not configured yet.',
+      : 'Message saved, but email delivery failed. Check SMTP settings in Render.',
     emailSent,
     data: contact,
   });

@@ -20,6 +20,7 @@ type ContactResponse = {
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '',
+  timeout: 15000,
 });
 
 const Contact: React.FC = () => {
