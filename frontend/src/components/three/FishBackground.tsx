@@ -16,6 +16,24 @@ const fishConfigs: FishConfig[] = [
   { color: '#50e3c2', finColor: '#3cc3b0', scale: 0.5, offset: 0.66, speed: 1.2 },
 ];
 
+const TailFin: React.FC<{ color: string }> = ({ color }) => {
+  const geometry = useMemo(() => {
+    const shape = new THREE.Shape();
+    shape.moveTo(-0.55, 0);
+    shape.lineTo(-1.1, 0.42);
+    shape.lineTo(-1.02, 0);
+    shape.lineTo(-1.1, -0.42);
+    shape.lineTo(-0.55, 0);
+    return new THREE.ShapeGeometry(shape);
+  }, []);
+
+  return (
+    <mesh geometry={geometry}>
+      <meshStandardMaterial color={color} roughness={0.7} side={THREE.DoubleSide} />
+    </mesh>
+  );
+};
+
 const Fish: React.FC<{ config: FishConfig; index: number }> = ({ config, index }) => {
   const groupRef = useRef<THREE.Group | null>(null);
   const tailRef = useRef<THREE.Group | null>(null);
@@ -52,11 +70,12 @@ const Fish: React.FC<{ config: FishConfig; index: number }> = ({ config, index }
 
     fish.position.copy(position);
     fish.lookAt(nextPosition);
-    fish.rotation.z += Math.sin(elapsed * 1.8 + index) * 0.12;
-    fish.rotation.x += Math.sin(elapsed * 1.2 + index) * 0.06;
+    fish.rotateY(Math.PI / 2);
+    fish.rotation.z += Math.sin(elapsed * 1.8 + index) * 0.1;
+    fish.rotation.x += Math.sin(elapsed * 1.2 + index) * 0.05;
 
     if (tailRef.current) {
-      tailRef.current.rotation.y = Math.sin(elapsed * 8 + index) * 0.45;
+      tailRef.current.rotation.y = Math.sin(elapsed * 8 + index) * 0.38;
     }
 
     const finFlap = Math.sin(elapsed * 5 + index) * 0.22;
@@ -66,29 +85,40 @@ const Fish: React.FC<{ config: FishConfig; index: number }> = ({ config, index }
 
   return (
     <group ref={groupRef} scale={config.scale}>
-      <mesh name="body">
-        <sphereGeometry args={[0.42, 16, 12]} />
+      <mesh name="body" scale={[1.25, 0.5, 0.42]}>
+        <sphereGeometry args={[0.42, 18, 12]} />
         <meshStandardMaterial color={config.color} metalness={0.1} roughness={0.65} />
       </mesh>
-      <group ref={tailRef} name="tail" position={[-0.45, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+      <mesh name="nose" position={[0.5, 0, 0]} scale={[0.7, 0.38, 0.36]}>
+        <sphereGeometry args={[0.35, 14, 10]} />
+        <meshStandardMaterial color={config.color} metalness={0.08} roughness={0.7} />
+      </mesh>
+      <group ref={tailRef} name="tail" position={[-0.35, 0, 0]}>
+        <TailFin color={config.finColor} />
+      </group>
+      <group name="topFin" position={[-0.05, 0.33, 0]} rotation={[0, 0, 0]}>
         <mesh>
-          <coneGeometry args={[0.28, 0.24, 8]} />
-          <meshStandardMaterial color={config.finColor} metalness={0.1} roughness={0.65} />
+          <coneGeometry args={[0.18, 0.42, 3]} />
+          <meshStandardMaterial color={config.finColor} roughness={0.7} side={THREE.DoubleSide} />
         </mesh>
       </group>
-      <mesh name="eye" position={[0.24, 0.08, 0.18]}>
+      <mesh name="eye" position={[0.64, 0.11, 0.19]}>
         <sphereGeometry args={[0.04, 8, 8]} />
         <meshStandardMaterial color="#050505" roughness={0.9} />
       </mesh>
-      <group ref={leftFinRef} name="leftFin" position={[0, 0, 0.28]} rotation={[0.2, 0, 0.3]}>
+      <mesh name="eyeHighlight" position={[0.66, 0.12, 0.22]}>
+        <sphereGeometry args={[0.012, 6, 6]} />
+        <meshBasicMaterial color="#ffffff" />
+      </mesh>
+      <group ref={leftFinRef} name="leftFin" position={[0.05, -0.04, 0.34]} rotation={[0.25, 0, 0.55]}>
         <mesh>
-          <planeGeometry args={[0.24, 0.16, 4, 2]} />
+          <coneGeometry args={[0.12, 0.34, 3]} />
           <meshStandardMaterial color={config.finColor} roughness={0.65} side={THREE.DoubleSide} />
         </mesh>
       </group>
-      <group ref={rightFinRef} name="rightFin" position={[0, 0, -0.28]} rotation={[-0.2, 0, -0.3]}>
+      <group ref={rightFinRef} name="rightFin" position={[0.05, -0.04, -0.34]} rotation={[-0.25, 0, -0.55]}>
         <mesh>
-          <planeGeometry args={[0.24, 0.16, 4, 2]} />
+          <coneGeometry args={[0.12, 0.34, 3]} />
           <meshStandardMaterial color={config.finColor} roughness={0.65} side={THREE.DoubleSide} />
         </mesh>
       </group>
@@ -113,7 +143,14 @@ const FishBackground: React.FC = () => {
   return (
     <Canvas
       className="fixed inset-0 z-0 pointer-events-none"
-      style={{ width: '100vw', height: '100vh' }}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 0,
+        width: '100vw',
+        height: '100vh',
+        pointerEvents: 'none',
+      }}
       camera={{ position: [0, 0, 8], fov: 60 }}
       dpr={pixelRatio}
       aria-hidden="true"
