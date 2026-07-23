@@ -22,15 +22,15 @@ I'm a student at Vardhaman College of Engineering, passionate about building thi
 
 ### 1. SkillHer
 [A platform that helps women discover learning resources and build in-demand skills]
-- **Tech stack:** [HTML, CSS, Django, SQLite]
-- **Live demo:** [Still in development]
-- **Repo:** [https://github.com/varun05126/skillher]
+- **Tech stack:** HTML, CSS, Django, SQLite
+- **Live demo:** Still in development
+- **Repo:** https://github.com/varun05126/skillher
 
 ### 2. E-Waste Management System
 [A web app that connects users with e-waste collection centers and promotes responsible recycling]
-- **Tech stack:** [e.g. HTML, CSS, Django, Leaflet.js, SQLite]
-- **Live demo:** [will be updated soon]
-- **Repo:** [https://github.com/varun05126/ewaste]
+- **Tech stack:** HTML, CSS, Django, Leaflet.js, SQLite
+- **Live demo:** will be updated soon]
+- **Repo:** https://github.com/varun05126/ewaste
 
 *(Add more projects as you build them!)*
 
@@ -50,9 +50,9 @@ cd Varun-s-portfolio/[project-folder]
 
 ## 📫 Contact Me
 
-- **Email:** [malthumkarvarun@gmail.com]
-- **LinkedIn:** [https://www.linkedin.com/in/varun-malthumkar-4a8735356/]
-- **GitHub:** [@varun05126](https://github.com/varun05126)
+- **Email:** malthumkarvarun@gmail.com
+- **LinkedIn:** https://www.linkedin.com/in/varun-malthumkar-4a8735356/
+- **GitHub:** [@varun05126](https://github.com/varun05126)]
 
 ---
 
