@@ -36,16 +36,36 @@ I'm a student at Vardhaman College of Engineering, passionate about building thi
 
 ## ⚙️ Getting Started
 
-If someone wants to explore or run a project from this portfolio locally:
+To run the full stack application locally:
 
+### Frontend
 ```bash
 # Clone the repository
-git clone https://github.com/varun05126/Varun-s-portfolio.git
+git clone <repository-url>
+cd Varuns-portfolio/frontend
 
-# Navigate into the project folder
-cd Varun-s-portfolio/[project-folder]
+# Install dependencies
+npm install
 
-# Follow the setup instructions in that project's own README
+# Start development server
+npm run dev
+```
+
+### Backend
+```bash
+# In a separate terminal
+cd ../backend
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+# Create a .env file based on .env.example
+cp .env.example .env
+# Edit .env to add your MongoDB URI and any other required variables
+
+# Start the server
+npm run dev
 ```
 
 ## 📫 Contact Me
