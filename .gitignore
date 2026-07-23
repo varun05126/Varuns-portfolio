@@ -9,3 +9,8 @@ npm-debug.log*
 .idea/
 dist/
 build/
+
+# Planning docs - keep local, not tracked
+TASK.md
+PROMPT.md
+PROMPT 1.md
