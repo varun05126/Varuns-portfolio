@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const connectDB = require('./config/db');
 const cors = require('cors');
 const errorHandler = require('./middleware/errorHandler');
@@ -22,6 +23,14 @@ app.use(express.json({ extended: false }));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/skills', require('./routes/skills'));
 app.use('/api/contact', require('./routes/contact'));
+
+const frontendDistPath = path.join(__dirname, '..', 'frontend', 'dist');
+
+app.use(express.static(frontendDistPath));
+
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(frontendDistPath, 'index.html'));
+});
 
 // Error handling middleware (must be last)
 app.use(errorHandler);
