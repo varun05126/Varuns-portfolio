@@ -2,56 +2,94 @@ const asyncHandler = require('express-async-handler');
 const Contact = require('../models/Contact');
 const nodemailer = require('nodemailer');
 
+const getEmailConfig = () => {
+  const host = process.env.EMAIL_HOST;
+  const user = process.env.EMAIL_USER;
+  const pass = process.env.EMAIL_PASS;
+  const from = process.env.EMAIL_FROM;
+  const to = process.env.EMAIL_TO || process.env.EMAIL_FROM;
+
+  if (!host || !user || !pass || !from || !to) {
+    return null;
+  }
+
+  return {
+    transporter: nodemailer.createTransport({
+      host,
+      port: Number(process.env.EMAIL_PORT) || 587,
+      secure: process.env.EMAIL_SECURE === 'true',
+      auth: { user, pass },
+    }),
+    from,
+    to,
+  };
+};
+
+const escapeHtml = (value = '') =>
+  String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
 // @desc    Contact form submission
 // @route   POST /api/contact
 // @access  Public
 const contactForm = asyncHandler(async (req, res) => {
   const { name, email, subject, message } = req.body;
+  const normalizedSubject = subject?.trim() || 'Portfolio contact';
 
-  // Save to database
   const contact = await Contact.create({
     name,
     email,
-    subject: subject || 'No Subject',
+    subject: normalizedSubject,
     message,
   });
 
-  // Send email (using nodemailer with ethereal for testing)
+  let emailSent = false;
+  const emailConfig = getEmailConfig();
+
   try {
-    // Create a transporter
-    let transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: parseInt(process.env.EMAIL_PORT) || 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    if (emailConfig) {
+      const safeName = escapeHtml(name);
+      const safeEmail = escapeHtml(email);
+      const safeSubject = escapeHtml(normalizedSubject);
+      const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
 
-    // Send mail with defined transport object
-    const info = await transporter.sendMail({
-      from: `"${name}" <${email}>`,
-      to: process.env.EMAIL_FROM,
-      subject: `Portfolio Contact Form: ${subject || 'No Subject'}`,
-      text: `You have a new message from your portfolio contact form:\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject || 'No Subject'}\n\nMessage:\n${message}`,
-      html: `<p>You have a new message from your portfolio contact form:</p>
-             <ul>
-               <li><strong>Name:</strong> ${name}</li>
-               <li><strong>Email:</strong> ${email}</li>
-               <li><strong>Subject:</strong> ${subject || 'No Subject'}</li>
-               <li><strong>Message:</strong> ${message.replace(/\n/g, '<br>')}</li>
-             </ul>`,
-    });
+      const info = await emailConfig.transporter.sendMail({
+        from: `"Varun Portfolio" <${emailConfig.from}>`,
+        to: emailConfig.to,
+        replyTo: `"${name}" <${email}>`,
+        subject: `Portfolio Contact: ${normalizedSubject}`,
+        text: `New portfolio contact message\n\nName: ${name}\nEmail: ${email}\nSubject: ${normalizedSubject}\n\nMessage:\n${message}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+            <h2>New portfolio contact message</h2>
+            <p><strong>Name:</strong> ${safeName}</p>
+            <p><strong>Email:</strong> ${safeEmail}</p>
+            <p><strong>Subject:</strong> ${safeSubject}</p>
+            <p><strong>Message:</strong></p>
+            <p>${safeMessage}</p>
+          </div>
+        `,
+      });
 
-    console.log('Message sent: %s', info.messageId);
+      emailSent = true;
+      console.log('Contact email sent: %s', info.messageId);
+    } else {
+      console.warn('Contact saved but email skipped: SMTP environment variables are incomplete');
+    }
   } catch (emailError) {
-    console.error('Error sending email:', emailError);
-    // We don't fail the request if email fails, but we log it
+    console.error('Contact saved but email failed:', emailError.message);
   }
 
   res.status(201).json({
     success: true,
+    message: emailSent
+      ? 'Message sent successfully.'
+      : 'Message saved successfully. Email delivery is not configured yet.',
+    emailSent,
     data: contact,
   });
 });
