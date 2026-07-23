@@ -7,16 +7,42 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
+class BackgroundBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: unknown) {
+    console.error('Fish background failed to render:', error);
+  }
+
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children;
+  }
+}
+
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <>
-      <FishBackground />
-      <Header />
-      <main className="min-h-[calc(100vh_-_auto)] pb-12 relative z-10">
-        <div className="min-h-[calc(100vh_-_auto)]">{children}</div>
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+      <BackgroundBoundary>
+        <FishBackground />
+      </BackgroundBoundary>
+      <div className="relative z-10">
+        <Header />
+      </div>
+      <main className="relative z-10 min-h-screen pb-12">
+        {children}
       </main>
-      <Footer />
-    </>
+      <div className="relative z-10">
+        <Footer />
+      </div>
+    </div>
   );
 };
 

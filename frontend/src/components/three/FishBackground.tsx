@@ -112,7 +112,7 @@ const FishBackground: React.FC = () => {
 
   return (
     <Canvas
-      className="fixed inset-0 pointer-events-none"
+      className="fixed inset-0 z-0 pointer-events-none"
       style={{ width: '100vw', height: '100vh' }}
       camera={{ position: [0, 0, 8], fov: 60 }}
       dpr={pixelRatio}
