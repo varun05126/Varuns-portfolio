@@ -7,16 +7,16 @@ Welcome to my portfolio repository! This is a collection of the projects I've bu
 I'm a student at Vardhaman College of Engineering, passionate about building things and learning new technologies. This portfolio is where I document my journey — from small experiments to bigger projects.
 
 - 🎓 Studying at Vardhaman College of Engineering
-- 🌱 Currently learning: [e.g. Web Development, Python, DSA]
-- 💡 Interested in: [e.g. Full-stack development, AI/ML, Open Source]
-- 📫 How to reach me: [your email]
+- 🌱 Currently learning: Web Development, Python, DSA
+- 💡 Interested in: Full-stack development, AI/ML, Open Source
+- 📫 How to reach me: malthumkarvarun@gmail.com
 
 ## 🛠️ Skills
 
-**Languages:** [e.g. Python, Java, C++, JavaScript]
-**Web:** [e.g. HTML, CSS, React, Node.js]
-**Tools:** [e.g. Git, VS Code, Postman]
-**Other:** [e.g. DSA, DBMS, OS fundamentals]
+**Languages:** Python, Java, C++, JavaScript
+**Web:** HTML, CSS, React, Node.js
+**Tools:** Git, VS Code, Postman
+**Other:** DSA, DBMS, OS fundamentals
 
 ## 🚀 Projects
 
