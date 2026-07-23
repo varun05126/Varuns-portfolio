@@ -10,6 +10,7 @@ const getEmailConfig = () => {
   const to = process.env.EMAIL_TO || process.env.EMAIL_FROM;
 
   if (!host || !user || !pass || !from || !to) {
+    console.warn("SMTP configuration is incomplete.");
     return null;
   }
 
@@ -19,7 +20,10 @@ const getEmailConfig = () => {
       port: Number(process.env.EMAIL_PORT) || 587,
       secure: process.env.EMAIL_SECURE === 'true',
       family: 4,
-      auth: { user, pass },
+      auth: {
+        user,
+        pass,
+      },
       connectionTimeout: 10000,
       greetingTimeout: 10000,
       socketTimeout: 15000,
@@ -56,22 +60,45 @@ const contactForm = asyncHandler(async (req, res) => {
 
   try {
     if (emailConfig) {
+
+      console.log("========== SMTP CONFIG ==========");
+      console.log({
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        secure: process.env.EMAIL_SECURE,
+        user: process.env.EMAIL_USER,
+        from: process.env.EMAIL_FROM,
+        to: process.env.EMAIL_TO,
+      });
+      console.log("================================");
+
+      console.log("Verifying SMTP server...");
+
+      await emailConfig.transporter.verify();
+
+      console.log("SMTP server verified successfully.");
+
       const safeName = escapeHtml(name);
       const safeEmail = escapeHtml(email);
       const safeSubject = escapeHtml(normalizedSubject);
       const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
-
-      await emailConfig.transporter.verify();
 
       const info = await emailConfig.transporter.sendMail({
         from: `"Varun Portfolio" <${emailConfig.from}>`,
         to: emailConfig.to,
         replyTo: `"${name}" <${email}>`,
         subject: `Portfolio Contact: ${normalizedSubject}`,
-        text: `New portfolio contact message\n\nName: ${name}\nEmail: ${email}\nSubject: ${normalizedSubject}\n\nMessage:\n${message}`,
+        text: `New portfolio contact message
+
+Name: ${name}
+Email: ${email}
+Subject: ${normalizedSubject}
+
+Message:
+${message}`,
         html: `
-          <div style="font-family: Arial, sans-serif; line-height: 1.5;">
-            <h2>New portfolio contact message</h2>
+          <div style="font-family: Arial, sans-serif;">
+            <h2>New Portfolio Contact</h2>
             <p><strong>Name:</strong> ${safeName}</p>
             <p><strong>Email:</strong> ${safeEmail}</p>
             <p><strong>Subject:</strong> ${safeSubject}</p>
@@ -82,19 +109,31 @@ const contactForm = asyncHandler(async (req, res) => {
       });
 
       emailSent = true;
-      console.log('Contact email sent: %s', info.messageId);
+
+      console.log("Email sent successfully.");
+      console.log("Message ID:", info.messageId);
+
     } else {
-      console.warn('Contact saved but email skipped: SMTP environment variables are incomplete');
+      console.warn("Contact saved but email skipped because SMTP variables are missing.");
     }
+
   } catch (emailError) {
-    console.error('Contact saved but email failed:', emailError.message);
+
+    console.error("========== SMTP ERROR ==========");
+    console.error(emailError);
+    console.error("Code:", emailError.code);
+    console.error("Command:", emailError.command);
+    console.error("Response:", emailError.response);
+    console.error("Stack:", emailError.stack);
+    console.error("================================");
+
   }
 
   res.status(201).json({
     success: true,
     message: emailSent
-      ? 'Message sent successfully.'
-      : 'Message saved, but email delivery failed. Check SMTP settings in Render.',
+      ? "Message sent successfully."
+      : "Message saved, but email delivery failed.",
     emailSent,
     data: contact,
   });
