@@ -52,7 +52,7 @@ cd Varun-s-portfolio/[project-folder]
 
 - **Email:** malthumkarvarun@gmail.com
 - **LinkedIn:** https://www.linkedin.com/in/varun-malthumkar-4a8735356/
-- **GitHub:** [@varun05126](https://github.com/varun05126)]
+- **GitHub:** [@varun05126](https://github.com/varun05126)
 
 ---
 
