@@ -8,12 +8,6 @@ const nodemailer = require('nodemailer');
 const contactForm = asyncHandler(async (req, res) => {
   const { name, email, subject, message } = req.body;
 
-  // Simple validation
-  if (!name || !email || !message) {
-    res.status(400);
-    throw new Error('Please add all required fields');
-  }
-
   // Save to database
   const contact = await Contact.create({
     name,
@@ -37,17 +31,17 @@ const contactForm = asyncHandler(async (req, res) => {
 
     // Send mail with defined transport object
     const info = await transporter.sendMail({
-      from: `"${name}" <${email}>`, // sender address
-      to: process.env.EMAIL_FROM, // list of receivers
-      subject: `Portfolio Contact Form: ${subject || 'No Subject'}`, // Subject line
-      text: `You have a new message from your portfolio contact form:\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject || 'No Subject'}\n\nMessage:\n${message}`, // plain text body
+      from: `"${name}" <${email}>`,
+      to: process.env.EMAIL_FROM,
+      subject: `Portfolio Contact Form: ${subject || 'No Subject'}`,
+      text: `You have a new message from your portfolio contact form:\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject || 'No Subject'}\n\nMessage:\n${message}`,
       html: `<p>You have a new message from your portfolio contact form:</p>
              <ul>
                <li><strong>Name:</strong> ${name}</li>
                <li><strong>Email:</strong> ${email}</li>
                <li><strong>Subject:</strong> ${subject || 'No Subject'}</li>
                <li><strong>Message:</strong> ${message.replace(/\n/g, '<br>')}</li>
-             </ul>`, // html body
+             </ul>`,
     });
 
     console.log('Message sent: %s', info.messageId);

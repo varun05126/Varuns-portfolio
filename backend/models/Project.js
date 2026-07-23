@@ -5,12 +5,14 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add a project title'],
     trim: true,
+    minlength: [2, 'Title must be at least 2 characters'],
     maxlength: [100, 'Title cannot exceed 100 characters'],
   },
   description: {
     type: String,
     required: [true, 'Please add a project description'],
     trim: true,
+    minlength: [10, 'Description must be at least 10 characters'],
     maxlength: [500, 'Description cannot exceed 500 characters'],
   },
   imageUrl: {
@@ -32,7 +34,7 @@ const projectSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  githubUrl: {
+  repoUrl: {
     type: String,
     trim: true,
   },
@@ -43,5 +45,8 @@ const projectSchema = new mongoose.Schema({
 }, {
   timestamps: true,
 });
+
+projectSchema.index({ featured: 1 });
+projectSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model('Project', projectSchema);

@@ -1,16 +1,20 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
 import GlassPanel from '../components/ui/GlassPanel';
 
+type ContactFormValues = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};
+
 const Contact: React.FC = () => {
-  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm({
+  } = useForm<ContactFormValues>({
     defaultValues: {
       name: '',
       email: '',
@@ -19,27 +23,9 @@ const Contact: React.FC = () => {
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: any) => {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error('Failed to send message');
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['contact'] });
-      toast.success('Message sent successfully!');
-    },
-    onError: (error: any) => {
-      toast.error(error.message || 'Failed to send message');
-    },
-  });
-
-  const onSubmit = (data: any) => {
-    mutation.mutate(data);
+  const onSubmit = async (data: ContactFormValues) => {
+    // Step 3 will replace this local handoff with the backend mutation.
+    console.log('Form submitted:', data);
   };
 
   return (
@@ -112,7 +98,12 @@ const Contact: React.FC = () => {
             </label>
             <input
               id="subject"
-              {...register('subject')}
+              {...register('subject', {
+                maxLength: {
+                  value: 200,
+                  message: 'Subject must be 200 characters or fewer',
+                },
+              })}
               className={`
                 block w-full rounded-md border border-input bg-background
                 px-3 py-2 text-sm ring-offset-background file:border-0
@@ -120,9 +111,13 @@ const Contact: React.FC = () => {
                 placeholder:text-muted-foreground focus-visible:outline-none
                 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
                 disabled:cursor-not-allowed disabled:opacity-50
+                ${errors.subject ? 'border-destructive' : ''}
               `}
               placeholder="Inquiry about collaboration"
             />
+            {errors.subject && (
+              <p className="text-sm text-destructive">{errors.subject.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -169,6 +164,9 @@ const Contact: React.FC = () => {
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}
           </button>
+          <p className="text-center text-xs text-muted-foreground">
+            Backend delivery will be connected in the next API wiring step.
+          </p>
         </form>
       </GlassPanel>
     </div>
