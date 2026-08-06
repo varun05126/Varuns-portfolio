@@ -13,7 +13,6 @@ interface ZoomSectionProps {
   parallax?: boolean; // Enable parallax background scaling (default: true)
   zoomPoint?: { x: number; y: number }; // Focal point (0-1 range, default: {x:0.5, y:0.5})
   accentColor?: string; // Focal glow color for this section
-  variant?: 'default' | 'dark'; // Section styling
   className?: string; // Additional classes
 }
 
@@ -26,8 +25,7 @@ const ZoomSection: React.FC<ZoomSectionProps> = ({
   scale = true,
   parallax = true,
   zoomPoint = { x: 0.5, y: 0.5 },
-  accentColor,
-  variant = 'default',
+  accentColor: _accentColor,
   className = '',
 }) => {
   const ref = useRef(null);
@@ -35,24 +33,6 @@ const ZoomSection: React.FC<ZoomSectionProps> = ({
     target: ref,
     offset: ['start center', 'end center'],
   });
-
-  // Check for reduced motion preference
-  const reduceMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // If reduced motion is requested, return simple fade-in
-  if (reduceMotion) {
-    return (
-      <motion.div
-        ref={ref}
-        className={`relative isolate ${className}`}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration, ease: 'easeOut' }}
-      >
-        {children}
-      </motion.div>
-    );
-  }
 
   // Calculate scale, blur, and opacity based on scroll progress
   const scaleValue = useTransform(
@@ -91,8 +71,36 @@ const ZoomSection: React.FC<ZoomSectionProps> = ({
   const springBlur = useSpring(blurValue, { damping: 20, stiffness: 120 });
   const springOpacity = useSpring(opacityValue, { damping: 20, stiffness: 120 });
 
+  // Check for reduced motion preference
+  const reduceMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // If reduced motion is requested, return simple fade-in
+  if (reduceMotion) {
+    return (
+      <motion.div
+        ref={ref}
+        className={`relative isolate ${className}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration, ease: 'easeOut' }}
+      >
+        {children}
+      </motion.div>
+    );
+  }
+
   // Create variants for staggered children
-  const variants: Variants = {
+  const containerVariants: Variants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: delay,
+        delayChildren: 0,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 20,
@@ -103,13 +111,11 @@ const ZoomSection: React.FC<ZoomSectionProps> = ({
       y: 0,
       filter: blur ? 'blur(0px)' : 'blur(0px)',
       transition: {
-        // Delay function will be handled by motion's variants system
         duration: 0.6,
         ease: 'easeOut',
       },
     },
   };
-
   return (
     <motion.div
       ref={ref}
@@ -124,7 +130,7 @@ const ZoomSection: React.FC<ZoomSectionProps> = ({
             filter: blur ? 'blur(8px)' : 'blur(0px)',
             WebkitFilter: blur ? 'blur(8px)' : 'blur(0px)',
           } as React.CSSProperties}>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at var(--bg-position-x,50%)_var(--bg-position-y,50%),${accentColor}0%_0%,transparent_40%)] animate-[gradient-shift_15s_ease_infinite]"
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at var(--bg-position-x,50%)_var(--bg-position-y,50%),${_accentColor}0%_0%,transparent_40%)] animate-[gradient-shift_15s_ease_infinite]"
                style={{
                  '--bg-position-x': bgPositionX,
                  '--bg-position-y': bgPositionY,
@@ -140,26 +146,33 @@ const ZoomSection: React.FC<ZoomSectionProps> = ({
           filter: springBlur,
           WebkitFilter: String(springBlur),
           opacity: springOpacity,
+          transform: springScale,
         }}
       >
         {/* Content wrapper for stagger effects */}
-        <div className="relative">
-          {React.Children.map(children, (child, index) => {
-            if (!React.isValidElement(child)) return child;
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="relative">
+            {React.Children.map(children, (child, index) => {
+              if (!React.isValidElement(child)) return child;
 
-            return (
-              <motion.div
-                key={child.key ?? index}
-                initial="hidden"
-                animate="visible"
-                variants={variants}
-                className="mb-4 last:mb-0"
-              >
-                {child}
-              </motion.div>
-            );
-          })}
-        </div>
+              return (
+                <motion.div
+                  key={child.key ?? index}
+                  initial="hidden"
+                  animate="visible"
+                  variants={itemVariants}
+                  className="mb-4 last:mb-0"
+                >
+                  {child}
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
       </motion.div>
     </motion.div>
   );
