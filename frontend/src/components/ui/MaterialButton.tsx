@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-import { motion, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import { twMerge } from 'tailwind-merge';
 
 interface MaterialButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -73,14 +74,21 @@ const MaterialButton: React.FC<MaterialButtonProps> = ({
     }
   };
 
+  // Remove problematic props that are not compatible with motion.button
+  const {
+    onDrag, onDragEnd, onDragStart, onDragLeave, onDragEnter, onDragOver,
+    onAnimationStart, onAnimationEnd, onAnimationIteration, onTransitionEnd,
+    ...restProps
+  } = props;
+
   return (
     <motion.button
       ref={ref}
       type="button"
-      variant={buttonVariants}
+      variants={buttonVariants}
+      initial="idle"
       whileTap="press"
       whileHover="hover"
-      whileIdle="idle"
       onClick={handleClick}
       disabled={loading}
       className={twMerge(
@@ -99,7 +107,7 @@ const MaterialButton: React.FC<MaterialButtonProps> = ({
         hoverBg,
         className
       )}
-      {...props}
+      {...restProps}
     >
       {icon && iconPosition === 'left' && (
         <div className="flex h-4 w-4 items-center justify-center">

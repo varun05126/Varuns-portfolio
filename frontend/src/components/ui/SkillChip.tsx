@@ -1,12 +1,9 @@
-import { MotionProps, Variants } from 'framer-motion';
 import { twMerge } from 'tailwind-merge';
 
 interface SkillChipProps {
   label: string;
   level?: number; // 0-100 proficiency level
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'outline' | 'soft';
-  isThreeD?: boolean; // For subtle 3D effect on hover
   className?: string;
 }
 
@@ -14,20 +11,8 @@ const SkillChip: React.FC<SkillChipProps> = ({
   label,
   level = 0,
   size = 'md',
-  variant = 'default',
-  isThreeD = true,
   className = '',
 }) => {
-  // Variants for hover effects
-  const variants: Variants = {
-    initial: { scale: 1, rotate: 0 },
-    hover: {
-      scale: isThreeD ? 1.05 : 1,
-      rotate: isThreeD ? 2 : 0,
-      transition: { type: 'spring', stiffness: 300, damping: 20 },
-    },
-    tap: { scale: 0.95 },
-  };
 
   // Background color based on level
   const getBgColor = (level: number) => {

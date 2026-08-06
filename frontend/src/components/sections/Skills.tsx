@@ -84,15 +84,18 @@ const Skills: React.FC = () => {
                   {group.category}
                 </h3>
                 <div className="flex flex-wrap gap-4">
-                  {group.items.map(([skill, level]) => (
-                    <div key={`${group.category}-${skill}`} className="flex items-center">
-                      <SkillChip
-                        label={skill}
-                        level={level}
-                        size="md"
-                      />
-                    </div>
-                  ))}
+                  {group.items.map((item) => {
+                    const [skill, level] = item;
+                    return (
+                      <div key={`${group.category}-${skill}`} className="flex items-center">
+                        <SkillChip
+                          label={skill as string}
+                          level={level as number}
+                          size="md"
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             ))}

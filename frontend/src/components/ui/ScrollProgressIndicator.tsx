@@ -6,10 +6,10 @@ const ScrollProgressIndicator: React.FC = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const subscription = scrollYProgress.subscribe(v => {
+    const unsubscribe = scrollYProgress.onChange((v) => {
       setProgress(v);
     });
-    return () => subscription.unsubscribe();
+    return () => unsubscribe();
   }, [scrollYProgress]);
 
   return (
