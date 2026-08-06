@@ -76,8 +76,16 @@ const MaterialButton: React.FC<MaterialButtonProps> = ({
 
   // Remove problematic props that are not compatible with motion.button
   const {
-    onDrag, onDragEnd, onDragStart, onDragLeave, onDragEnter, onDragOver,
-    onAnimationStart, onAnimationEnd, onAnimationIteration, onTransitionEnd,
+    onDrag: _onDrag,
+    onDragEnd: _onDragEnd,
+    onDragStart: _onDragStart,
+    onDragLeave: _onDragLeave,
+    onDragEnter: _onDragEnter,
+    onDragOver: _onDragOver,
+    onAnimationStart: _onAnimationStart,
+    onAnimationEnd: _onAnimationEnd,
+    onAnimationIteration: _onAnimationIteration,
+    onTransitionEnd: _onTransitionEnd,
     ...restProps
   } = props;
 
@@ -90,7 +98,7 @@ const MaterialButton: React.FC<MaterialButtonProps> = ({
       whileTap="press"
       whileHover="hover"
       onClick={handleClick}
-      disabled={loading}
+      disabled={loading || props.disabled}
       className={twMerge(
         'relative inline-flex items-center justify-center gap-x-2',
         'rounded-md border font-medium transition-all duration-200',
