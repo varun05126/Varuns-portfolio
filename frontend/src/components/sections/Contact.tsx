@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
-import { icons } from 'lucide-react';
+import { FaGithub } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaEnvelope } from "react-icons/fa";
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
@@ -95,7 +97,7 @@ const Contact: React.FC = () => {
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 h-8 w-8 flex items-center justify-center bg-primary/20 rounded-full">
-                    <Lucide.Mail className="h-4 w-4 text-primary" />
+                    <FaEnvelope className="h-4 w-4 text-primary" />
                   </div>
                   <div className="space-y-1">
                     <p className="font-medium text-foreground">Email:</p>
@@ -105,7 +107,7 @@ const Contact: React.FC = () => {
 
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 h-8 w-8 flex items-center justify-center bg-primary/20 rounded-full">
-                    <Lucide.Github className="h-4 w-4 text-primary" />
+                    <FaGithub className="h-4 w-4 text-primary" />
                   </div>
                   <div className="space-y-1">
                     <p className="font-medium text-foreground">GitHub:</p>
@@ -115,7 +117,7 @@ const Contact: React.FC = () => {
 
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 h-8 w-8 flex items-center justify-center bg-primary/20 rounded-full">
-                    <Lucide.Linkedin className="h-4 w-4 text-primary" />
+                    <FaLinkedin className="h-4 w-4 text-primary" />
                   </div>
                   <div className="space-y-1">
                     <p className="font-medium text-foreground">LinkedIn:</p>

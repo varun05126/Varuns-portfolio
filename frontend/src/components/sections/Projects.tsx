@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import MaterialButton from '@/components/ui/MaterialButton';
-import * as Lucide from 'lucide-react';
 import ZoomSection from '@/components/ui/ZoomSection';
 
 const Projects: React.FC = () => {

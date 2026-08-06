@@ -1,4 +1,3 @@
-import { MotionProps } from 'framer-motion';
 import { twMerge } from 'tailwind-merge';
 
 interface AchievementBadgeProps {

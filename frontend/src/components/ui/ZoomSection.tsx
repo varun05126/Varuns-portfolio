@@ -1,6 +1,7 @@
 import { useRef } from 'react';
-import { useScroll, useTransform, useSpring, motion, Variants } from 'framer-motion';
-import { useEffect } from 'react';
+import { useScroll, useTransform, useSpring, motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
+import React from 'react';
 
 interface ZoomSectionProps {
   children: React.ReactNode;
@@ -46,7 +47,7 @@ const ZoomSection: React.FC<ZoomSectionProps> = ({
         className={`relative isolate ${className}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
+        transition={{ duration, ease: 'easeOut' }}
       >
         {children}
       </motion.div>
@@ -72,6 +73,19 @@ const ZoomSection: React.FC<ZoomSectionProps> = ({
     [fade ? 0.3 : 1, fade ? 0.6 : 1, fade ? 1 : 1, fade ? 1 : 1]
   );
 
+  // Calculate background position for parallax effect using zoomPoint
+  const bgPositionX = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [`${50 + (zoomPoint.x * 100 * 0.3)}%`, `${50 + (zoomPoint.x * 100 * 0.3) + 15}%`] // 50% + zoomPoint.x * 30%
+  );
+
+  const bgPositionY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [`${50 + (zoomPoint.y * 100 * 0.3)}%`, `${50 + (zoomPoint.y * 100 * 0.3) + 15}%`] // 50% + zoomPoint.y * 30%
+  );
+
   // Use spring for smoother animation
   const springScale = useSpring(scaleValue, { damping: 20, stiffness: 120 });
   const springBlur = useSpring(blurValue, { damping: 20, stiffness: 120 });
@@ -89,7 +103,7 @@ const ZoomSection: React.FC<ZoomSectionProps> = ({
       y: 0,
       filter: blur ? 'blur(0px)' : 'blur(0px)',
       transition: {
-        delay: (i: number) => i * delay,
+        // Delay function will be handled by motion's variants system
         duration: 0.6,
         ease: 'easeOut',
       },
@@ -100,9 +114,6 @@ const ZoomSection: React.FC<ZoomSectionProps> = ({
     <motion.div
       ref={ref}
       className={`relative isolate overflow-hidden ${className}`}
-      style={{
-        '--scroll-progress': scrollYProgress,
-      }}
     >
       {/* Background layer for parallax effect */}
       {parallax && (
@@ -112,14 +123,13 @@ const ZoomSection: React.FC<ZoomSectionProps> = ({
             transformOrigin: 'center',
             filter: blur ? 'blur(8px)' : 'blur(0px)',
             WebkitFilter: blur ? 'blur(8px)' : 'blur(0px)',
-          }}
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at var(--bg-position-x,50%)_var(--bg-position-y,50%),rgba(255,255,255,0.03)_0%,transparent_40%)] animate-[gradient-shift_15s_ease_infinite]"
+          } as React.CSSProperties}>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at var(--bg-position-x,50%)_var(--bg-position-y,50%),${accentColor}0%_0%,transparent_40%)] animate-[gradient-shift_15s_ease_infinite]"
                style={{
-                 '--bg-position-x': `${(scrollYProgress * 100 * 0.3) + 50}%`,
-                 '--bg-position-y': `${(scrollYProgress * 100 * 0.3) + 50}%`,
-               }}/>
-        </motion.div>
+                 '--bg-position-x': bgPositionX,
+                 '--bg-position-y': bgPositionY,
+               } as React.CSSProperties}/>
+          </motion.div>
       )}
 
       {/* Main content container with transform and filter effects */}
