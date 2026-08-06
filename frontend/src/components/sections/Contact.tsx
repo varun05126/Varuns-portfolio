@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import * as Lucide from 'lucide-react';
+import { icons } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
