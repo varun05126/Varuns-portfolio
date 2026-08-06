@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { ZoomSection } from '@/components/ui/ZoomSection';
 import { SkillChip } from '@/components/ui/SkillChip';
 
 const Skills: React.FC = () => {
@@ -66,8 +67,12 @@ const Skills: React.FC = () => {
   ];
 
   return (
-    <section className="relative flex min-h-[100vh] w-full flex-col items-center justify-start px-4 pt-20">
-
+    <section className="relative">
+      <ZoomSection
+        accentColor="#3b82f6"
+        zoomPoint={{ x: 0.5, y: 0.2 }}
+        className="min-h-[100vh] w-full flex-col items-center justify-start px-4 pt-20"
+      >
         <div className="relative z-10 w-full max-w-4xl space-y-12">
           <h2 className="text-3xl font-bold text-center text-foreground">
             Skills & Expertise
@@ -94,7 +99,7 @@ const Skills: React.FC = () => {
             ))}
           </div>
         </div>
-      </div>
+      </ZoomSection>
     </section>
   );
 };
