@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin } from 'lucide-react';
+import * as Lucide from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
-import { ZoomSection } from '@/components/ui/ZoomSection';
+import ZoomSection from '@/components/ui/ZoomSection';
 
 type ContactFormValues = {
   name: string;
@@ -95,7 +95,7 @@ const Contact: React.FC = () => {
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 h-8 w-8 flex items-center justify-center bg-primary/20 rounded-full">
-                    <Mail className="h-4 w-4 text-primary" />
+                    <Lucide.Mail className="h-4 w-4 text-primary" />
                   </div>
                   <div className="space-y-1">
                     <p className="font-medium text-foreground">Email:</p>
@@ -105,7 +105,7 @@ const Contact: React.FC = () => {
 
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 h-8 w-8 flex items-center justify-center bg-primary/20 rounded-full">
-                    <Github className="h-4 w-4 text-primary" />
+                    <Lucide.Github className="h-4 w-4 text-primary" />
                   </div>
                   <div className="space-y-1">
                     <p className="font-medium text-foreground">GitHub:</p>
@@ -115,7 +115,7 @@ const Contact: React.FC = () => {
 
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 h-8 w-8 flex items-center justify-center bg-primary/20 rounded-full">
-                    <Linkedin className="h-4 w-4 text-primary" />
+                    <Lucide.Linkedin className="h-4 w-4 text-primary" />
                   </div>
                   <div className="space-y-1">
                     <p className="font-medium text-foreground">LinkedIn:</p>

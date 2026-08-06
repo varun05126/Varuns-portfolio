@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ZoomSection } from '@/components/ui/ZoomSection';
+import ZoomSection from '@/components/ui/ZoomSection';
 
 const About: React.FC = () => {
   const facts = [

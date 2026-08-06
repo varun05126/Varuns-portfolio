@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ZoomSection } from '@/components/ui/ZoomSection';
+import ZoomSection from '@/components/ui/ZoomSection';
 
 interface EducationProps {
   className?: string;
@@ -76,7 +76,7 @@ const Education: React.FC<EducationProps> = ({ className = '' }) => {
                   </div>
                 </motion.div>
               </div>
-            }
+            </div>
 
             {/* Right: Timeline */}
             <motion.div
@@ -87,7 +87,6 @@ const Education: React.FC<EducationProps> = ({ className = '' }) => {
             >
               <h2 className="text-2xl font-bold">Academic Timeline</h2>
 
-              {/* Timeline items */}
               <div className="space-y-6">
                 {/* Year 1 */}
                 <motion.div
@@ -146,7 +145,7 @@ const Education: React.FC<EducationProps> = ({ className = '' }) => {
                   </div>
                 </motion.div>
               </div>
-            }
+            </motion.div>
           </div>
         </div>
       </ZoomSection>
