@@ -27,33 +27,21 @@ class BackgroundBoundary extends React.Component<
   }
 }
 
-const foregroundStyle: React.CSSProperties = {
-  position: 'relative',
-  zIndex: 10,
-};
-
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div
       className="relative min-h-screen overflow-x-hidden bg-background text-foreground"
-      style={{
-        position: 'relative',
-        minHeight: '100vh',
-        overflowX: 'hidden',
-        backgroundColor: 'hsl(var(--background))',
-        color: 'hsl(var(--foreground))',
-      }}
     >
       <BackgroundBoundary>
         <FishBackground />
       </BackgroundBoundary>
-      <div className="relative z-10" style={foregroundStyle}>
+      <div className="relative z-10">
         <Header />
       </div>
-      <main className="relative z-10 min-h-screen pb-12" style={{ ...foregroundStyle, minHeight: '100vh' }}>
+      <main className="relative z-10 min-h-screen pb-12">
         {children}
       </main>
-      <div className="relative z-10" style={foregroundStyle}>
+      <div className="relative z-10">
         <Footer />
       </div>
     </div>
