@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import * as Lucide from 'lucide-react';
+import { icons } from 'lucide-react';
 import ZoomSection from '@/components/ui/ZoomSection';
 
 const CodingProfiles: React.FC = () => {
@@ -7,22 +7,22 @@ const CodingProfiles: React.FC = () => {
     {
       platform: 'GitHub',
       url: 'https://github.com/varun05126',
-      icon: <Lucide.Github className="h-5 w-5" />,
+      icon: <icons.Github className="h-5 w-5" />,
     },
     {
       platform: 'LinkedIn',
       url: 'https://linkedin.com/in/varun05126',
-      icon: <Lucide.Linkedin className="h-5 w-5" />,
+      icon: <icons.Linkedin className="h-5 w-5" />,
     },
     {
       platform: 'LeetCode',
       url: 'https://leetcode.com/varun05126/',
-      icon: <Lucide.CodeSandbox className="h-5 w-5" />,
+      icon: <icons.CodeSandbox className="h-5 w-5" />,
     },
     {
       platform: 'HackerRank',
       url: 'https://hackerrank.com/varun05126',
-      icon: <Lucide.Terminal className="h-5 w-5" />,
+      icon: <icons.Terminal className="h-5 w-5" />,
     },
   ];
 
