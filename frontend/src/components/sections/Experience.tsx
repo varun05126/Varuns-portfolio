@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { ZoomSection } from '@/components/ui/ZoomSection';
-import { Briefcase, Calendar, Building } from 'lucide-react';
+import ZoomSection from '@/components/ui/ZoomSection';
+import * as Lucide from 'lucide-react';
 
 const Experience: React.FC = () => {
   return (
@@ -33,7 +33,7 @@ const Experience: React.FC = () => {
               transition={{ delay: 0.6, duration: 0.4 }}
               className="flex-shrink-0 h-12 w-12 flex items-center justify-center bg-primary/20 rounded-lg"
             >
-              <Briefcase className="h-6 w-6 text-primary" />
+              <Lucide.Briefcase className="h-6 w-6 text-primary" />
             </motion.div>
 
             {/* Details */}
@@ -54,12 +54,12 @@ const Experience: React.FC = () => {
 
               <div className="flex items-baseline gap-4 text-sm text-muted-foreground">
                 <span>
-                  <Calendar className="mr-1 h-4 w-4" />
+                  <Lucide.Calendar className="mr-1 h-4 w-4" />
                   Jan 2023 - Present
                 </span>
                 <span className="mx-2 h-0.5 w-4 bg-primary/20"></span>
                 <span>
-                  <Building className="h-4 w-4" />
+                  <Lucide.Building className="h-4 w-4" />
                   Remote
                 </span>
               </div>

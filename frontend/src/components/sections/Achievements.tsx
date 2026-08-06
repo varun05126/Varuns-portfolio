@@ -1,29 +1,28 @@
 import { motion } from 'framer-motion';
-import { AchievementBadge } from '@/components/ui/AchievementBadge';
-import { Trophy, Code, Heart, Lightbulb } from 'lucide-react';
-import { ZoomSection } from '@/components/ui/ZoomSection';
+import * as Lucide from 'lucide-react';
+import ZoomSection from '@/components/ui/ZoomSection';
 
 const Achievements: React.FC = () => {
   const achievements = [
     {
       title: 'Frontend Development Internship Completed',
       description: 'Successfully completed frontend development internship at Cognifyz Technologies',
-      icon: <Trophy className="h-5 w-5" />,
+      icon: <Lucide.Trophy className="h-5 w-5" />,
     },
     {
       title: 'Multiple AI-Powered Full-Stack Applications',
       description: 'Built and deployed several AI-integrated web applications from concept to production',
-      icon: <Code className="h-5 w-5" />,
+      icon: <Lucide.Code className="h-5 w-5" />,
     },
     {
       title: 'Strong Data Structures & Algorithms Foundation',
       description: 'Proven ability to solve complex algorithmic problems and optimize code performance',
-      icon: <Heart className="h-5 w-5" />,
+      icon: <Lucide.Heart className="h-5 w-5" />,
     },
     {
       title: 'Passionate About Solving Real-World Problems',
       description: 'Dedicated to creating technology solutions that address genuine societal needs',
-      icon: <Lightbulb className="h-5 w-5" />,
+      icon: <Lucide.Lightbulb className="h-5 w-5" />,
     },
   ];
 

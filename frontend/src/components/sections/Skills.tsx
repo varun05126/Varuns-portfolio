@@ -1,6 +1,5 @@
-import { motion } from 'framer-motion';
-import { ZoomSection } from '@/components/ui/ZoomSection';
-import { SkillChip } from '@/components/ui/SkillChip';
+import ZoomSection from '@/components/ui/ZoomSection';
+import SkillChip from '@/components/ui/SkillChip';
 
 const Skills: React.FC = () => {
   const skillGroups = [
@@ -79,13 +78,13 @@ const Skills: React.FC = () => {
           </h2>
 
           <div className="grid gap-8">
-            {skillGroups.map((group, groupIndex) => (
+            {skillGroups.map((group) => (
               <div key={group.category} className="space-y-4">
                 <h3 className="text-2xl font-semibold text-foreground">
                   {group.category}
                 </h3>
                 <div className="flex flex-wrap gap-4">
-                  {group.items.map(([skill, level], index) => (
+                  {group.items.map(([skill, level]) => (
                     <div key={`${group.category}-${skill}`} className="flex items-center">
                       <SkillChip
                         label={skill}

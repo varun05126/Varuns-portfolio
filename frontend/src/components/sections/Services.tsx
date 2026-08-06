@@ -1,28 +1,28 @@
 import { motion } from 'framer-motion';
-import { Code, Brain, Server, Database } from 'lucide-react';
-import { ZoomSection } from '@/components/ui/ZoomSection';
+import * as Lucide from 'lucide-react';
+import ZoomSection from '@/components/ui/ZoomSection';
 
 const Services: React.FC = () => {
   const services = [
     {
       title: 'Full Stack Development',
       description: 'End-to-end web application development from frontend UI to backend APIs and database design.',
-      icon: <Code className="h-5 w-5" />,
+      icon: <Lucide.Code className="h-5 w-5" />,
     },
     {
       title: 'AI Integration',
       description: 'Implementing artificial intelligence solutions including LLMs, machine learning models, and AI-powered features.',
-      icon: <Brain className="h-5 w-5" />,
+      icon: <Lucide.Brain className="h-5 w-5" />,
     },
     {
       title: 'Backend Development',
       description: 'Building scalable server-side applications, REST APIs, and microservices using modern frameworks.',
-      icon: <Server className="h-5 w-5" />,
+      icon: <Lucide.Server className="h-5 w-5" />,
     },
     {
       title: 'Database Design',
       description: 'Designing and optimizing relational and NoSQL databases for performance, scalability, and data integrity.',
-      icon: <Database className="h-5 w-5" />,
+      icon: <Lucide.Database className="h-5 w-5" />,
     },
   ];
 

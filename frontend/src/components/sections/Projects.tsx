@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { MaterialButton } from '@/components/ui/MaterialButton';
-import { ExternalLink, Code } from 'lucide-react';
-import { ZoomSection } from '@/components/ui/ZoomSection';
+import MaterialButton from '@/components/ui/MaterialButton';
+import * as Lucide from 'lucide-react';
+import ZoomSection from '@/components/ui/ZoomSection';
 
 const Projects: React.FC = () => {
   const projects = [
@@ -135,23 +135,21 @@ const Projects: React.FC = () => {
                     {/* Action buttons */}
                     <div className="px-6 pt-4 pb-6">
                       <div className="flex flex-col sm:flex-row sm:gap-3 w-full">
-                        <MotionButton
+                        <MaterialButton
                           variant="outline"
                           size="sm"
-                          href={project.repo}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          onClick={() => window.open(project.repo, '_blank')}
                         >
                           View Repository
-                        </MotionButton>
+                        </MaterialButton>
                         {project.status === 'Live Demo' && (
-                          <MotionButton
+                          <MaterialButton
                             variant="primary"
                             size="sm"
-                            href="#"
+                            onClick={() => window.open('#', '_blank')}
                           >
                             Live Demo
-                          </MotionButton>
+                          </MaterialButton>
                         )}
                       </div>
                     </div>

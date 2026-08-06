@@ -1,28 +1,28 @@
 import { motion } from 'framer-motion';
-import { Github, Linkedin, CodeSandbox, Terminal } from 'lucide-react';
-import { ZoomSection } from '@/components/ui/ZoomSection';
+import * as Lucide from 'lucide-react';
+import ZoomSection from '@/components/ui/ZoomSection';
 
 const CodingProfiles: React.FC = () => {
   const profiles = [
     {
       platform: 'GitHub',
       url: 'https://github.com/varun05126',
-      icon: <Github className="h-5 w-5" />,
+      icon: <Lucide.Github className="h-5 w-5" />,
     },
     {
       platform: 'LinkedIn',
       url: 'https://linkedin.com/in/varun05126',
-      icon: <Linkedin className="h-5 w-5" />,
+      icon: <Lucide.Linkedin className="h-5 w-5" />,
     },
     {
       platform: 'LeetCode',
       url: 'https://leetcode.com/varun05126/',
-      icon: <CodeSandbox className="h-5 w-5" />,
+      icon: <Lucide.CodeSandbox className="h-5 w-5" />,
     },
     {
       platform: 'HackerRank',
       url: 'https://hackerrank.com/varun05126',
-      icon: <Terminal className="h-5 w-5" />,
+      icon: <Lucide.Terminal className="h-5 w-5" />,
     },
   ];
 

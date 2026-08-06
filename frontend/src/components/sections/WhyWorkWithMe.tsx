@@ -1,33 +1,33 @@
 import { motion } from 'framer-motion';
-import { Zap, Heart, Brain, ShieldCheck, Sparkles } from 'lucide-react';
-import { ZoomSection } from '@/components/ui/ZoomSection';
+import * as Lucide from 'lucide-react';
+import ZoomSection from '@/components/ui/ZoomSection';
 
 const WhyWorkWithMe: React.FC = () => {
   const qualities = [
     {
       title: 'Strong Analytical/Problem-Solving Skills',
       description: 'Ability to break down complex problems and devise efficient solutions',
-      icon: <Zap className="h-5 w-5" />,
+      icon: <Lucide.Zap className="h-5 w-5" />,
     },
     {
       title: 'Passion for AI',
       description: 'Deep enthusiasm for artificial intelligence and machine learning technologies',
-      icon: <Brain className="h-5 w-5" />,
+      icon: <Lucide.Brain className="h-5 w-5" />,
     },
     {
       title: 'Fast learner',
       description: 'Quickly grasp new concepts, technologies, and methodologies',
-      icon: <Zap className="h-5 w-5" />,
+      icon: <Lucide.Zap className="h-5 w-5" />,
     },
     {
       title: 'Clean Maintainable Code',
       description: 'Writing readable, well-structured, and easily maintainable code',
-      icon: <Sparkles className="h-5 w-5" />,
+      icon: <Lucide.Sparkles className="h-5 w-5" />,
     },
     {
       title: 'Commitment to Quality',
       description: 'Dedication to delivering high-quality work that meets requirements and exceeds expectations',
-      icon: <ShieldCheck className="h-5 w-5" />,
+      icon: <Lucide.ShieldCheck className="h-5 w-5" />,
     },
   ];
 
