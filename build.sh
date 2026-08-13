@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Installing backend dependencies..."
-npm ci --prefix backend
+echo "Installing Python dependencies..."
+pip install -r requirements.txt
 
-echo "Installing frontend dependencies..."
-npm ci --prefix frontend
+echo "Running Django migrations..."
+python manage.py migrate --noinput
 
-echo "Building frontend..."
-npm run build --prefix frontend
+echo "Collecting static files..."
+python manage.py collectstatic --noinput
+
+echo "Build completed successfully!"
