@@ -9,7 +9,12 @@ npm-debug.log*
 .idea/
 dist/
 build/
-
+db.sqlite3
+__pycache__/
+*.pyc
+venv/
+.env
+staticfiles/
 # Planning docs - keep local, not tracked
 TASK.md
 PROMPT.md
