@@ -1,3 +1,4 @@
+# Render configuration for Django portfolio
 services:
   - type: web
     name: varuns-portfolio
