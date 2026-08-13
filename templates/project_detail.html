@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} - Varun's Portfolio{% endblock %}
+
+{% block content %}
+<div class="container">
+    <a href="{% url 'home' %}" class="back-link">&larr; Back to Projects</a>
+
+    <div class="project-detail">
+        <h1>{{ project.title }}</h1>
+        <div class="project-meta">
+            <span class="status-badge">{{ project.status }}</span>
+            <div class="project-tech">
+                <span class="tech-tag">{{ project.tech_stack }}</span>
+            </div>
+        </div>
+        <div class="project-description">
+            <p>{{ project.description }}</p>
+        </div>
+        <div class="project-links">
+            <a href="{{ project.repo_url }}" target="_blank" rel="noopener noreferrer" class="project-link">GitHub Repo</a>
+            {% if project.live_url %}
+            <a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
