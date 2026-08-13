@@ -1,9 +1,7 @@
-# Render configuration for Django portfolio
 services:
   - type: web
     name: varuns-portfolio
     env: python
     buildCommand: ./build.sh
-    startCommand: gunicorn backend.wsgi:application
     plan: free
     healthCheckPath: /
