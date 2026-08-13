@@ -5,12 +5,22 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-#!v*z!z!z!z!z!z!z!z!z!z!z!z!z!z!z!z!z!z!z!z')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-#!v*z!z!z!z!z!z!z!z!z!z!z!z!z!z!z!z!z!z!z!z!z')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+
+# Add Render's external hostname if set (for Render.com)
+render_external_hostname = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if render_external_hostname and render_external_hostname not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(render_external_hostname)
+
+# CSRF trusted origins for Render (if using HTTPS)
+CSRF_TRUSTED_ORIGINS = []
+if render_external_hostname:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{render_external_hostname}")
 
 # Application definition
 
